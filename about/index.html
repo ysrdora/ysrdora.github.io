@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About Mad.</title>
+  <style>
+    #mad {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+  </style>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+  <div id="mad"></div>
+  <script>
+    var tam = 300;
+var videoPreloader = $('#mad');
+
+function generateBackgroundImage() {
+  var canvas = document.createElement("canvas");
+  canvas.width = tam;
+  canvas.height = tam;
+  var context = canvas.getContext("2d");
+  var pixelWidth = 1.5;
+  var pixelHeight = 1.5;
+
+  for (var y = 0; y < tam; y += pixelHeight) {
+    for (var x = 0; x < tam; x += pixelWidth) {
+      context.fillStyle = Math.random() < 0.5 ? "#dfdfdf" : "#000";
+      context.fillRect(x, y, pixelWidth, pixelHeight);
+    }
+  }
+
+  var imgDataUrl = canvas.toDataURL();
+  videoPreloader.css('background-image', 'url(\'' + imgDataUrl + '\')');
+  
+  animateBackground();
+}
+
+function animateBackground() {
+  var randomX = Math.floor(Math.random() * tam);
+  var randomY = Math.floor(Math.random() * tam);
+  videoPreloader.css('background-position', randomX + "px " + randomY + "px");
+
+  var requestAnimationFrameFunc =
+    window.requestAnimationFrame ||
+    window.webkitRequestAnimationFrame ||
+    window.mozRequestAnimationFrame ||
+    window.msRequestAnimationFrame ||
+    function (callback) {
+      setTimeout(callback, 1000 / 60);
+    };
+
+  requestAnimationFrameFunc(animateBackground);
+}
+
+generateBackgroundImage();
+    </script>
+</body>
+</html>
